@@ -1,4 +1,4 @@
-TOKEN = "7025685130:AAFsQ5VPXZcKTrLU1-dp0Dc5MGmg3C17KyA"
+TOKEN = "7067454780:AAF8ZXm71skcxfhp00glAnJSJxMuZw6WODg"
 bot_name = "LuckyBull_bot"
 CHANNELS = [
     ["LuckyBull Coin","-1002118931853","https://t.me/LuckyBullCoin",],
