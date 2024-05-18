@@ -29,6 +29,7 @@ stickers = [
 
 @router.message(CommandStart())
 async def send_welcome(message: Message):
+    db.update_last_activity(message.from_user.id)
     user_id = message.from_user.id
     tg_name = message.from_user.username
     referer_id = None
@@ -100,6 +101,7 @@ stickers_coders = [
 
 @router.message(F.text == "💰 Награды")
 async def show_rewards(message: Message):
+    db.update_last_activity(message.from_user.id)
     user_id = message.from_user.id
     num_referrals = db.count_referals(user_id)
     bonus_points = db.get_bonus_points(user_id)
@@ -127,12 +129,14 @@ async def show_rewards(message: Message):
 
 @router.message(F.text == "🕹️ Играть")
 async def play_ru(message:Message):
+    db.update_last_activity(message.from_user.id)
     random_sticker = random.choice(stickers_coders)
     await message.answer_sticker(random_sticker)
     await message.answer("Мы рады, что ты уже готов ворваться в игру, но чтобы сделать ее качественнее нам надо еще немного времени",reply_markup=kb.main_russia)
 
 @router.message(F.text == "🕹️ Play")
 async def play_ru(message:Message):
+    db.update_last_activity(message.from_user.id)
     random_sticker = random.choice(stickers_coders)
     await message.answer_sticker(random_sticker)
     await message.answer("We are glad that you are ready to break into the game, but we need a little more time to make it better",reply_markup=kb.main_english)
@@ -140,16 +144,19 @@ async def play_ru(message:Message):
 
 @router.message(F.text == "💸Пресейл")
 async def presell_ru(message:Message):
+    db.update_last_activity(message.from_user.id)
     pay_adress = f"UQD9NwqXuJ1MktBwr5tkmVXYM-4dFeNcE3x8R0_KjgxhyP-Y"
     await message.answer(f"Что бы участвовать в пресейле нужно отправить ton на адрес -\n"f"`{pay_adress}`", reply_markup=kb.main_presell_ru, parse_mode="Markdown")
 
 @router.message(F.text == "📲 Подключить кошелек")
 async def connect(message:Message):
+    db.update_last_activity(message.from_user.id)
     await message.answer("Подключить кошелек можно будет чуть позже",reply_markup=kb.main_russia)
     # await message.answer(f"подключи свой кошелек, чтобы получить бонусы и полностью насладиться игрой", reply_markup=kb.main_russia_connect, parse_mode=ParseMode.HTML)
 
 @router.message(F.text =="⚙️ Профиль")
 async def profile(message:Message):
+    db.update_last_activity(message.from_user.id)
     user_id = message.from_user.id
     num_referals = db.count_referals(message.from_user.id)
     bonus = db.get_bonus_points(user_id)
@@ -158,6 +165,7 @@ async def profile(message:Message):
 
 @router.message(F.text =="🤝 Реферальная ссылка")
 async def referal (message:Message):
+    db.update_last_activity(message.from_user.id)
     referral_link = f"https://t.me/{cfg.bot_name}?start={message.from_user.id}"
     response_text = (
         "Приглашайте друзей и занимайтесь совместным развитием! За первых 5 приглашённых — 500 бонусов сразу, и по 100 бонусов за каждого следующего.\n\n"
@@ -200,10 +208,12 @@ async def check_all_subscriptions(bot: Bot, user_id: int):
 
 @router.message(F.text == "🌐 Язык")
 async def language(message: Message):
+    db.update_last_activity(message.from_user.id)
     await message.answer("🌐 <b>Choose your language / выбери язык</b>",parse_mode=ParseMode.HTML,reply_markup=kb.start_main)
 
 @router.message(F.text == "🌐 Language")
 async def language(message: Message):
+    db.update_last_activity(message.from_user.id)
     await message.answer("🌐 <b>Choose your language / выбери язык</b>",parse_mode=ParseMode.HTML,reply_markup=kb.start_main)
 async def check_user_subscriptions_and_add_bonuses(bot: Bot, user_id: int, db):
     successful_subscriptions = []
@@ -299,16 +309,19 @@ async def check_subscription(callback_query: CallbackQuery, bot: Bot):
 
 @router.message(F.text == "💸Presale")
 async def presell_ru(message:Message):
+    db.update_last_activity(message.from_user.id)
     pay_adress = f"UQD9NwqXuJ1MktBwr5tkmVXYM-4dFeNcE3x8R0_KjgxhyP-Y"
     await message.answer(f"To participate in the presale, you need to send a ton to the address\n"f"`{pay_adress}`", reply_markup=kb.main_presell_en, parse_mode="Markdown")
 
 @router.message(F.text == "📲 Connect Wallet")
 async def connect(message:Message):
+    db.update_last_activity(message.from_user.id)
     await message.answer(f"You will be able to connect the wallet a little later", reply_markup=kb.main_english, parse_mode=ParseMode.HTML)
     # await message.answer(f"Connect your wallet to receive bonuses and fully enjoy the game", reply_markup=kb.main_en_connect, parse_mode=ParseMode.HTML)
 
 @router.message(F.text =="⚙️ Profile")
 async def profile(message:Message):
+    db.update_last_activity(message.from_user.id)
     user_id = message.from_user.id
     num_referals = db.count_referals(message.from_user.id)
     bonus = db.get_bonus_points(user_id)
@@ -316,6 +329,7 @@ async def profile(message:Message):
 
 @router.message(F.text =="🤝 Referral Link")
 async def referal (message:Message):
+    db.update_last_activity(message.from_user.id)
     referral_link = f"https://t.me/{cfg.bot_name}?start={message.from_user.id}"
     response_text = (
         "Invite your friends and engage in joint development! For the first 5 invited — 500 bonuses at once, and 100 bonuses for each next one.\n\n"
@@ -326,6 +340,7 @@ async def referal (message:Message):
 
 @router.message(F.text == "💰 Rewards")
 async def show_rewards(message: Message):
+    db.update_last_activity(message.from_user.id)
     user_id = message.from_user.id
     num_referrals = db.count_referals(user_id)
     bonus_points = db.get_bonus_points(user_id)
