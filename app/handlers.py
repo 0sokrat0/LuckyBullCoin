@@ -146,7 +146,8 @@ async def play_ru(message:Message):
 async def presell_ru(message:Message):
     db.update_last_activity(message.from_user.id)
     pay_adress = f"UQD9NwqXuJ1MktBwr5tkmVXYM-4dFeNcE3x8R0_KjgxhyP-Y"
-    await message.answer(f"Что бы участвовать в пресейле нужно отправить ton на адрес -\n"f"`{pay_adress}`", reply_markup=kb.main_presell_ru, parse_mode="Markdown")
+    pay_adress1 = f"luckybull.ton"
+    await message.answer(f"Что бы участвовать в пресейле нужно отправить ton на адрес -\n"f"`{pay_adress1}` или `{pay_adress}`", reply_markup=kb.main_presell_ru, parse_mode="Markdown")
 
 @router.message(F.text == "📲 Подключить кошелек")
 async def connect(message:Message):
@@ -285,23 +286,21 @@ async def check_subscription(callback_query: CallbackQuery, bot: Bot):
         # Отправка стикера через объект bot, а не через callback_query
         await bot.send_sticker(callback_query.from_user.id, "CAACAgIAAxkBAAEMIVxmRmu4e7_UAikXkBkCgRACCcNnngACrjAAAnx_uEp6KcLM_EAS-TUE")
         await callback_query.message.answer(
-            "Вы уже подписаны на все доступные каналы и чаты!",
-            reply_markup=kb.main_russia
+            "You are already subscribed to all available channels and chats!",
+            reply_markup=kb.main_english
         )
     else:
         successful_subscriptions = await check_user_subscriptions_and_add_bonuses(bot, user_id, db)
         if successful_subscriptions:
             subscriptions_list = ", ".join(successful_subscriptions)
-            await bot.send_message(callback_query.from_user_id,"CAACAgIAAxkBAAEMIWlmRm_1P-jRYitSrI92MhIHzTApbwACYgMAAm2wQgOZk6ig1YUjNTUE")
             await callback_query.message.answer(
-                f"Вы успешно подписаны на: {subscriptions_list}. Бонусы начислены.",
-                reply_markup=kb.main_russia
+                f"You have successfully subscribed to: {subscriptions_list}. Bonuses are accrued.",
+                reply_markup=kb.main_english
             )
         else:
-            await bot.send_message(callback_query.from_user_id,"CAACAgIAAxkBAAEMIWVmRm9Ui6FPUCweVZ4ft21DwCqdLwACcgMAAm2wQgN8hjxqMH187jUE")
             await callback_query.message.answer(
-                "Пожалуйста, подпишитесь на все каналы и чаты для получения бонусов.",
-                reply_markup=kb.main_russia
+                "Please subscribe to all channels and chat rooms to receive bonuses.",
+                reply_markup=kb.main_english
             )
 
     await callback_query.answer()
@@ -311,7 +310,8 @@ async def check_subscription(callback_query: CallbackQuery, bot: Bot):
 async def presell_ru(message:Message):
     db.update_last_activity(message.from_user.id)
     pay_adress = f"UQD9NwqXuJ1MktBwr5tkmVXYM-4dFeNcE3x8R0_KjgxhyP-Y"
-    await message.answer(f"To participate in the presale, you need to send a ton to the address\n"f"`{pay_adress}`", reply_markup=kb.main_presell_en, parse_mode="Markdown")
+    pay_adress1 = f"luckybull.ton"
+    await message.answer(f"To participate in the presale, you need to send a ton to the address\n"f"`{pay_adress1}` or `{pay_adress}`", reply_markup=kb.main_presell_en, parse_mode="Markdown")
 
 @router.message(F.text == "📲 Connect Wallet")
 async def connect(message:Message):
